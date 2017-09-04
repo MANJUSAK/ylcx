@@ -207,6 +207,76 @@ public class DemandReleaseServicelmpl implements DemandReleaseService {
     }
 
     /**
+     * 根据规格查询需求发布数据
+     *
+     * @param dbh    胸径
+     * @param pdt    蓬径
+     * @param height 高度
+     * @param <T>    泛型
+     * @return 查询数据
+     * @throws Exception
+     */
+    @Override
+    public <T> T queryRleaseData(HttpServletRequest request, String price, String dbh, String pdt, String ht, String uid, String page) {
+        //判断page start
+        if (page == null || page == "") {
+            return (T) new Status(StatusEnum.NO_URL.getCODE(), StatusEnum.NO_URL.getEXPLAIN());
+        }
+        //end
+        //将page转化为数字 start
+        int arg = 0;
+        try {
+            arg = Integer.parseInt(page);
+        } catch (NumberFormatException e) {
+            this.logger.error(e);
+            return (T) new Status(StatusEnum.NO_PRAM.getCODE(), StatusEnum.NO_PRAM.getEXPLAIN());
+        }
+        if (arg < 0) {
+            arg = 0;
+        }
+        arg *= 20;
+        //end
+        List<Seedling> data = null;
+        try {
+            data = this.dao.querySeedlingBySpDao(price, dbh, pdt, ht, uid, arg);
+        } catch (Exception e) {
+            this.logger.error(e);
+            return (T) new Status(StatusEnum.SERVER_ERROR.getCODE(), StatusEnum.SERVER_ERROR.getEXPLAIN());
+        }
+        int s = data.size();
+        if (s > 0) {
+            //获取服务器域名地址
+            String var = this.domainName.getServerDomainName(request).toString();
+            StringBuilder sb = new StringBuilder();
+            try {
+                for (int i = 0; i < s; ++i) {
+                    //查询数据对应的图片信息
+                    List<FileData> path = this.fileDao.queryFileDao(data.get(i).getFilesId());
+                    int p = path.size();
+                    if (p > 0) {
+                        //封装域名地址以及图片相对路径
+                        List url = new ArrayList();
+                        for (int j = 0; j < p; ++j) {
+                            sb.append(var);
+                            sb.append(path.get(j).getPath());
+                            url.add(sb.toString());
+                            sb.delete(0, sb.length());
+                        }
+                        //将图片完整地址封装到数据中
+                        data.get(i).setPicture(url);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                this.logger.error(e);
+            }
+            return (T) new Result(0, data);
+        } else {
+            return (T) new Status(StatusEnum.NO_DATA.getCODE(), StatusEnum.NO_DATA.getEXPLAIN());
+        }
+    }
+
+    /**
      * 需求发布数据录入（有文件）
      *
      * @param files 文件，

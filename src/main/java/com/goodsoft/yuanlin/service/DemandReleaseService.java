@@ -13,6 +13,9 @@ public interface DemandReleaseService {
     //查询需求发布数据
     public <T> T queryReleaseData(String keyWord, String comp, String uid, String type, HttpServletRequest request, String date, String breed, String tp, String characters, String sub, String page);
 
+    //按规格查询需求发布数据
+    public <T> T queryRleaseData(HttpServletRequest request, String price, String dbh, String pdt, String ht, String uid, String page);
+
     //添加需求发布数据（有文件）
     public Status releaseDataService(MultipartFile[] files, Object msg, String type);
 

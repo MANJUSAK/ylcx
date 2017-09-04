@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<!--苗木参考报价mapper start-->
+<mapper namespace="com.goodsoft.yuanlin.domain.dao.SeedlingOfferDao">
+    <!--查询苗木参考报价 start-->
+    <!--苗木参考报价结果映射 start-->
+    <resultMap id="seedlingOfferInfo" type="com.goodsoft.yuanlin.domain.entity.demand.SeedlingOffer">
+        <result property="material" column="material"/>
+        <result property="specification" column="specification"/>
+        <result property="unit" column="unit"/>
+        <result property="price" column="price"/>
+        <result property="types" column="types"/>
+        <result property="comment" column="comments"/>
+        <result property="date" column="date"/>
+    </resultMap>
+    <select id="querySeedlingOfferDao" resultMap="seedlingOfferInfo" parameterType="int">
+    SELECT material,specification,unit,price,types,comments,date
+    FROM
+    gs_seedlingoffer ORDER BY sid DESC limit #{page},20
+    </select>
+    <!--苗木参考报价结果映射 end-->
+    <!--查询苗木参考报价 end-->
+    <!--添加苗木参考报价 start-->
+    <!--添加苗木参考报价sql-->
+    <insert id="addSeedlingOfferDao" parameterType="java.util.List">
+        INSERT INTO gs_seedlingoffer (material, specification, unit, price, types, comments, date)
+        VALUES
+        <foreach collection="msg" item="item" open="(" separator="," close=")">
+            (#{item.material}, #{item.specification}, #{item.unit}, #{item.price}, #{item.types},
+            #{item.comments},#{item.date});
+        </foreach>
+    </insert>
+    <!--添加苗木参考报价 end-->
+</mapper>
+        <!--苗木参考报价mapper end-->

@@ -44,6 +44,24 @@ public class DemandReleaseController {
     }
 
     /**
+     * 按规格查询需求发布数据接口
+     *
+     * @param request 请求
+     * @param price   价格
+     * @param dbh     胸径
+     * @param pdt     蓬径
+     * @param ht      高度
+     * @param uid     用户编号
+     * @param page    页码
+     * @return 响应结果
+     */
+    @CrossOrigin(origins = "*", maxAge = 3600, methods = RequestMethod.GET)
+    @RequestMapping("/find/sp/seedling")
+    public Object queryDemandReleaseController(HttpServletRequest request, String price, String dbh, String pdt, String ht, String uid, String page) {
+        return this.service.queryRleaseData(request, price, dbh, pdt, ht, uid, page);
+    }
+
+    /**
      * 发布设备租赁数据入口
      *
      * @param files 查询什么的数据（招标，苗木等），

@@ -21,6 +21,9 @@ public interface DemandReleaseDao {
     // 查询苗木信息数据dao接口
     public List<Seedling> querySeedlingDao(@Param("keyWord") String keyWord, @Param("comp") String comp, @Param("uid") String uid, @Param("breed") String breed, @Param("sub") String sub, @Param("date") String date, @Param("page") int page) throws Exception;
 
+    // 按规格查询苗木信息数据dao接口
+    public List<Seedling> querySeedlingBySpDao(@Param("price") String price, @Param("dbh") String dbh, @Param("pdt") String pdt, @Param("ht") String ht, @Param("uid") String uid, @Param("page") int page) throws Exception;
+
     // 查询招标信息数据数据dao接口
     public List<Bid> queryBidDao(@Param("keyWord") String keyWord, @Param("comp") String comp, @Param("uid") String uid, @Param("date") String date, @Param("page") int page) throws Exception;
 
