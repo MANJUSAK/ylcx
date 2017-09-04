@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<!--@author 严彬荣-->
+<!--需求发布mapper start-->
+<mapper namespace="com.goodsoft.yuanlin.domain.dao.DemandReleaseDao">
+    <!--设备租赁结果映射 start-->
+    <resultMap id="queryEquipment" type="com.goodsoft.yuanlin.domain.entity.demand.Equipment">
+        <result property="eid" column="eid"/>
+        <result property="titleName" column="titleName"/>
+        <result property="content" column="content"/>
+        <result property="date" column="date"/>
+        <result property="time" column="time"/>
+        <result property="contact" column="contact"/>
+        <result property="tel" column="tel"/>
+        <result property="comp" column="comp"/>
+        <result property="filesId" column="filesId"/>
+    </resultMap>
+    <!--需求发布结果映射 end-->
+    <!--设备租赁sql start-->
+    <select id="queryEquipmentDao" parameterType="Object" resultMap="queryEquipment">
+        SELECT
+        eid,titleName,content,date,time,contact,tel,comp,filesId
+        FROM
+        gs_equipment
+        <where>
+            <if test="keyWord !=null and keyWord !=''">
+                and titleName like '%${keyWord}%'
+            </if>
+            <if test="uid !=null and uid !=''">
+                and uid=#{uid}
+            </if>
+            <if test="comp !=null and comp !=''">
+                and comp like '%${comp}%'
+            </if>
+            <if test="date !=null and date !=''">
+                and date like '%${date}%'
+            </if>
+            AND ISNO=0
+            order by eid desc
+            limit #{page},20
+        </where>
+    </select>
+    <!--设备租赁sql end-->
+    <!--招标信息查询结果映射 start-->
+    <resultMap id="queryBid" type="com.goodsoft.yuanlin.domain.entity.demand.Bid">
+        <result property="bid" column="bid"/>
+        <result property="titleName" column="titleName"/>
+        <result property="content" column="content"/>
+        <result property="contact" column="contact"/>
+        <result property="tel" column="tel"/>
+        <result property="date" column="date"/>
+        <result property="comp" column="comp"/>
+        <result property="time" column="time"/>
+    </resultMap>
+    <!--招标信息查询结果映射 end-->
+    <!--招标信息查询sql start-->
+    <select id="queryBidDao" parameterType="Object" resultMap="queryBid">
+        SELECT
+        bid,titleName,content,contact,tel,date,time,comp
+        FROM
+        gs_bids
+        <where>
+            <if test="keyWord !=null and keyWord !=''">
+                and titleName like '%${keyWord}%'
+            </if>
+            <if test="comp !=null and comp !=''">
+                and comp like '%${comp}%'
+            </if>
+            <if test="uid !=null and uid !=''">
+                and uid=#{uid}
+            </if>
+            <if test="date !=null and date !=''">
+                and date like '%${date}%'
+            </if>
+            AND ISNO=0
+            order by bid desc
+            limit #{page},20
+        </where>
+    </select>
+    <!--招标信息查询sql end-->
+    <!--苗木信息查询sql start-->
+    <resultMap id="querySeedling" type="com.goodsoft.yuanlin.domain.entity.demand.Seedling">
+        <result property="sid" column="sid"/>
+        <result property="titleName" column="titleName"/>
+        <result property="content" column="content"/>
+        <result property="contact" column="contact"/>
+        <result property="date" column="date"/>
+        <result property="time" column="time"/>
+        <result property="tel" column="tel"/>
+        <result property="address" column="address"/>
+        <result property="sub" column="sub"/>
+        <result property="supplier" column="supplier"/>
+        <result property="breed" column="breed"/>
+        <result property="comp" column="comp"/>
+        <result property="filesId" column="filesId"/>
+    </resultMap>
+    <select id="querySeedlingDao" parameterType="Object" resultMap="querySeedling">
+        SELECT
+        sid,titleName,content,contact,tel,address,supplier,breed,filesId,comp,date,time,sub
+        FROM
+        gs_seedling
+        <where>
+            <if test="keyWord !=null and keyWord !=''">
+                and titleName like '%${keyWord}%'
+            </if>
+            <if test="comp !=null and comp !=''">
+                and comp like '%${comp}%'
+            </if>
+            <if test="uid !=null and uid !=''">
+                and uid=#{uid}
+            </if>
+            <if test="breed !=null and breed !=''">
+                and breed =#{breed}
+            </if>
+            <if test="sub !=null and sub !=''">
+                and sub =#{sub}
+            </if>
+            <if test="date !=null and date !=''">
+                and date like '%${date}%'
+            </if>
+            AND ISNO=0
+            order by sid desc
+            limit #{page},20
+        </where>
+    </select>
+    <!--苗木信息查询sql end-->
+    <!--人员招聘信息查询映射 start-->
+    <resultMap id="queryRecruit" type="com.goodsoft.yuanlin.domain.entity.demand.Recruit">
+        <result property="rid" column="rid"/>
+        <result property="positions" column="positions"/>
+        <result property="companyName" column="companyName"/>
+        <result property="companyAdress" column="companyAdress"/>
+        <result property="workAdress" column="workAdress"/>
+        <result property="contact" column="contact"/>
+        <result property="date" column="date"/>
+        <result property="time" column="time"/>
+        <result property="tel" column="tel"/>
+        <result property="companyIntro" column="companyIntro"/>
+        <result property="content" column="content"/>
+        <result property="email" column="email"/>
+        <result property="money" column="money"/>
+        <result property="evaluate" column="evaluate"/>
+        <result property="comp" column="comp"/>
+        <result property="experience" column="experience"/>
+        <result property="tp" column="tp"/>
+        <result property="characters" column="characters"/>
+    </resultMap>
+    <!--人员招聘信息查询映射 end-->
+    <!--人员招聘信息查询sql start-->
+    <select id="queryRecruitDao" parameterType="Object" resultMap="queryRecruit">
+        SELECT
+        rid,
+        positions,
+        companyName,
+        companyAdress,
+        workAdress,
+        companyIntro,
+        content,
+        date,
+        time,
+        contact,
+        tel,
+        email,
+        money,
+        evaluate,
+        experience,
+        comp,
+        tp,
+        characters
+        FROM
+        gs_recruit
+        <where>
+            <if test="keyWord !=null and keyWord !=''">
+                and positions like '%${keyWord}%'
+            </if>
+            <if test="comp !=null and comp !=''">
+                and comp like '%${comp}%'
+            </if>
+            <if test="uid !=null and uid !=''">
+                and uid=#{uid}
+            </if>
+            <if test="tp !=null and tp !=''">
+                and tp=#{tp}
+            </if>
+            <if test="characters !=null and characters !=''">
+                and characters=#{characters}
+            </if>
+            <if test="date !=null and date !=''">
+                and date like '%${date}%'
+            </if>
+            AND ISNO=0
+            order by rid desc
+            limit #{page},20
+        </where>
+    </select>
+    <!--人员招聘信息查询sql end-->
+    <!--设备租赁数据录入sql start-->
+    <insert id="saveEquipmentDao" parameterType="com.goodsoft.yuanlin.domain.entity.demand.Equipment">
+       INSERT INTO
+       gs_equipment
+       (titleName, contact, tel, date, time, content, filesId, uid,comp)
+       VALUES
+       (#{titleName}, #{contact}, #{tel}, #{date}, #{time}, #{content}, #{filesId}, #{uid},#{comp})
+    </insert>
+    <!--设备租赁数据录入sql end-->
+    <!--招标数据录入sql start-->
+    <insert id="saveBidDao" parameterType="com.goodsoft.yuanlin.domain.entity.demand.Bid">
+        INSERT INTO
+        gs_bids
+        (titleName, contact, tel, date, time, content, uid,comp)
+         VALUES
+         (#{titleName}, #{contact}, #{tel}, #{date}, #{time}, #{content}, #{uid},#{comp})
+    </insert>
+    <!--招标数据录入sql end-->
+    <!--苗木信息数据录入sql start-->
+    <insert id="saveSeedlingDao" parameterType="com.goodsoft.yuanlin.domain.entity.demand.Seedling">
+        INSERT INTO gs_seedling
+        (titleName, contact, tel, date, time,address, content, supplier, breed, sub, filesId, uid,comp)
+        VALUES
+        (#{titleName}, #{contact}, #{tel}, #{date}, #{time},#{address}, #{content},
+        #{supplier}, #{breed}, #{sub}, #{filesId}, #{uid},#{comp})
+    </insert>
+    <!--苗木信息数据录入sql end-->
+    <!--人员招聘数据录入sql start-->
+    <insert id="saveRecruitDao" parameterType="com.goodsoft.yuanlin.domain.entity.demand.Recruit">
+       INSERT INTO
+       gs_recruit
+       (contact,tel, date, time, money, companyName, companyIntro,companyAdress,
+       workAdress, positions, experience, content, tp, characters, email, evaluate, uid,comp)
+       VALUES
+       (#{contact},#{tel},#{date},#{time},#{money},#{companyName},#{companyIntro},#{companyAdress},
+       #{workAdress},#{positions},#{experience},#{content},#{tp},#{characters},#{email},#{evaluate},#{uid},#{comp})
+    </insert>
+    <!--人员招聘数据录入sql end-->
+    <!--更新设备数据状态(isNo=1表示数据已删除) start-->
+    <update id="updateEquipmentDao" parameterType="java.util.Arrays">
+        UPDATE gs_equipment SET isNo='1' WHERE eid IN
+        <foreach collection="id" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--更新设备数据状态(isNo=1表示数据已删除) end-->
+    <!--更新苗木数据状态(isNo=1表示数据已删除) start-->
+    <update id="updateSeedlingDao" parameterType="java.util.Arrays">
+        UPDATE gs_seedling SET isNo='1' WHERE sid IN
+        <foreach collection="id" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--更新苗木数据状态(isNo=1表示数据已删除) end-->
+    <!--更新招标数据状态(isNo=1表示数据已删除) start-->
+    <update id="updateBidDao" parameterType="java.util.Arrays">
+        UPDATE gs_bids SET isNo=1 WHERE bid IN
+        <foreach collection="id" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--更新招标数据状态(isNo=1表示数据已删除) end-->
+    <!--更新人员招聘数据状态(isNo=1表示数据已删除) start-->
+    <update id="updateRecruitDao" parameterType="java.util.Arrays">
+        UPDATE gs_recruit SET isNo='1' WHERE rid IN
+        <foreach collection="id" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--更新人员招聘数据状态(isNo=1表示数据已删除) end-->
+</mapper>
+        <!--需求发布mapper start-->
